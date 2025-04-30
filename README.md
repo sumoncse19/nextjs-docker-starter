@@ -2,7 +2,7 @@
 
 A production-ready starter template for Next.js applications with TypeScript and Docker support.
 
-![Next.js Docker Starter](public/nextjs-docker-starter.png)
+![Next.js Docker Starter](public/nextjs-typescript-docker-react.png)
 
 ## Tech Stack
 
