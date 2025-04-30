@@ -1,0 +1,25 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc* ./
+
+RUN \
+  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm i --frozen-lockfile; \
+  else corepack enable pnpm && pnpm i; \
+  fi
+
+EXPOSE 3000
+
+CMD if [ -f yarn.lock ]; then \
+      yarn dev; \
+    elif [ -f package-lock.json ]; then \
+      npm run dev; \
+    elif [ -f pnpm-lock.yaml ]; then \
+      corepack enable pnpm && pnpm dev; \
+    else \
+      npm run dev; \
+    fi
