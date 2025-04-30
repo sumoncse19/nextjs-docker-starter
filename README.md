@@ -145,6 +145,6 @@ docker-compose build --no-cache
 4. Push to branch: `git push origin feature/your-feature`
 5. Submit a pull request
 
-## License
+## Full documentation
 
-MIT License - feel free to use this project for your own purposes.
+Read full article on medium - [Click Here](https://medium.com/@sumoncse19/next-js-docker-starter-a-production-ready-boilerplate-with-typescript-docker-support-045ea672af6c)
