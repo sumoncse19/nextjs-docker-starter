@@ -147,4 +147,4 @@ docker-compose build --no-cache
 
 ## Full documentation
 
-Read full article on medium - [Click Here](https://medium.com/@sumoncse19/next-js-docker-starter-a-production-ready-boilerplate-with-typescript-docker-support-045ea672af6c)
+Read full article on medium - <a href="https://medium.com/@sumoncse19/next-js-docker-starter-a-production-ready-boilerplate-with-typescript-docker-support-045ea672af6c" target="_blank">Click Here</a>
