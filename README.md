@@ -5,8 +5,8 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 1. Clone the repository:
 
 ```bash
-git clone <your-repository-url>
-cd nextjs-dockerise
+git clone https://github.com/sumoncse19/nextjs-docker-starter.git
+cd nextjs-docker-starter
 ```
 
 2. Install dependencies:
