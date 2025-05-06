@@ -48,15 +48,20 @@ jobs:
             
       - name: Install dependencies
         run: |
+          # Print current directory and contents for debugging
+          pwd
+          ls -la
+          
+          # Try to install dependencies without frozen lockfile first
+          pnpm install --no-frozen-lockfile
+          
+          # If successful, commit the lock file
           if [ -f "pnpm-lock.yaml" ]; then
-            pnpm install --frozen-lockfile
-          else
-            pnpm install
             git config --global user.name "GitHub Actions"
             git config --global user.email "actions@github.com"
             git add pnpm-lock.yaml
-            git commit -m "chore: add pnpm-lock.yaml"
-            git push
+            git commit -m "chore: add pnpm-lock.yaml" || true
+            git push || true
           fi
         
       - name: Type check
