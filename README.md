@@ -1,6 +1,6 @@
-# Next.js Docker Starter
+# Next.js Docker Starter with Coolify CI/CD
 
-A production-ready starter template for Next.js applications with TypeScript and Docker support.
+A production-ready starter template for Next.js applications with TypeScript, Docker support, and automated CI/CD pipeline using Coolify.
 
 ![Next.js Docker Starter](public/nextjs-typescript-docker-react.png)
 
@@ -10,6 +10,8 @@ A production-ready starter template for Next.js applications with TypeScript and
 - TypeScript
 - Docker
 - React 18
+- Coolify (Deployment & CI/CD)
+- GitHub Actions
 
 ## Project Structure
 
@@ -18,9 +20,13 @@ nextjs-dockerise/
 ├── app/                    # Next.js 15 app directory
 ├── public/                 # Static files
 ├── components/             # React components
+├── .coolify/              # Coolify configuration
+│   ├── Dockerfile         # Production Docker configuration
+│   └── docker-compose.yml # Production compose file
+├── .github/               # GitHub Actions workflows
+│   └── workflows/         # CI/CD pipeline configuration
 ├── Dockerfile.dev         # Development Docker configuration
-├── Dockerfile        # Production Docker configuration
-├── docker-compose.yml     # Docker compose configuration
+├── docker-compose.yml     # Development compose file
 └── package.json          # Project dependencies
 ```
 
@@ -43,7 +49,7 @@ pnpm install   # or yarn install, npm install
 
 ```bash
 # Start development server with hot-reload
-docker-compose up dev
+docker-compose up
 
 # Stop containers
 docker-compose down
@@ -55,19 +61,65 @@ docker-compose down
 pnpm dev   # or yarn dev, npm run dev
 ```
 
+## CI/CD Pipeline Setup
+
+### 1. GitHub Secrets Configuration
+
+1. Go to your GitHub repository
+2. Navigate to Settings > Secrets and variables > Actions
+3. Add the following secrets:
+   - `DOCKERHUB_USERNAME`: Your Docker Hub username
+   - `DOCKERHUB_TOKEN`: Your Docker Hub access token
+   - `COOLIFY_HOST`: Your Coolify server hostname/IP
+   - `COOLIFY_USERNAME`: SSH username for Coolify server
+   - `COOLIFY_SSH_KEY`: SSH private key for Coolify server
+
+### 2. Coolify Instance Setup
+
+1. **Install Coolify**:
+   ```bash
+   # On your server
+   curl -fsSL https://cdn.coollabs.io/coolify/install.sh | bash
+   ```
+
+2. **Access Coolify Dashboard**:
+   - Open `http://your-server-ip:8000`
+   - Complete the initial setup
+
+3. **Create New Project**:
+   - Click "New Project"
+   - Select "Docker Compose"
+   - Configure environment variables:
+     ```
+     DOCKER_REGISTRY=docker.io
+     DOCKER_USERNAME=your-dockerhub-username
+     PORT=3000
+     NEXT_PUBLIC_API_URL=your-api-url
+     ```
+
+4. **Configure Deployment**:
+   - Set deployment path
+   - Configure build settings
+   - Enable automatic deployments
+
 ## Production Deployment
 
-1. Build the production Docker image:
+The CI/CD pipeline automatically handles deployments:
 
-```bash
-docker build -f Dockerfile -t nextjs-app-prod .
-```
+1. **On Pull Request**:
+   - Runs tests
+   - Type checking
+   - Linting
 
-2. Run the production container:
+2. **On Push to Develop**:
+   - Builds Docker image
+   - Pushes to Docker Hub
+   - Tags with commit SHA
 
-```bash
-docker run -p 3000:3000 nextjs-app-prod
-```
+3. **On Push to Main**:
+   - Builds Docker image
+   - Pushes to Docker Hub
+   - Deploys to Coolify
 
 ## Docker Commands
 
@@ -124,7 +176,6 @@ docker-compose down        # Stop containers
 ## Common Issues
 
 1. Port already in use:
-
 ```bash
 docker-compose down
 # or
@@ -132,9 +183,17 @@ kill $(lsof -t -i:3000)
 ```
 
 2. Docker cache issues:
-
 ```bash
 docker-compose build --no-cache
+```
+
+3. Coolify deployment issues:
+```bash
+# Check Coolify logs
+coolify logs
+
+# Restart Coolify service
+coolify restart
 ```
 
 ## Contributing
